@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 const app = express()
@@ -20,7 +20,32 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    
+    const toycollection = client.db('toyDB').collection('alltoys')
+
+//     get toy
+     app.get('/alltoys',async(req,res)=>{
+          const result = await toycollection.find().toArray()
+          res.send(result)
+          
+     })
+     // post data
+     app.post('/alltoys',async(req,res)=>{
+          const add = req.body;
+          console.log(add);
+          const result = await toycollection.insertOne(add)
+          res.send(result)
+     })
+     app.get('/alltoys/:id',async(req,res)=>{
+          const id = req.params.id;
+          const query = {_id : new ObjectId(id)};
+          const options = {
+               // Include only the `title` and `imdb` fields in each returned document
+               projection: {   photo:1,toyName:1,price:1,quantity:1,details:1,subcategory:1,salerName:1},
+             };
+          const result = await toycollection.findOne(query,options);
+          res.send(result)
+
+     })
 
 
 
