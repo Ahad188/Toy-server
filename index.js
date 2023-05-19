@@ -23,11 +23,22 @@ async function run() {
     const toycollection = client.db('toyDB').collection('alltoys')
 
 //     get toy
-     app.get('/alltoys',async(req,res)=>{
-          const result = await toycollection.find().toArray()
+app.get('/alltoys',async(req,res)=>{
+     const result = await toycollection.find().toArray()
+     res.send(result)
+})
+     app.get('/alltoys/:email',async(req,res)=>{
+          console.log(req.params.email);
+          const e = req.params.email
+          console.log(e);
+          const result = await toycollection.find({email:e}).toArray()
           res.send(result)
-          
      })
+      
+      
+
+
+
      // post data
      app.post('/alltoys',async(req,res)=>{
           const add = req.body;
@@ -46,6 +57,12 @@ async function run() {
           res.send(result)
 
      })
+     // app.delete('/alltoys/:id',async(req,res)=>{
+     //      const id = req.params.id;
+     //      const filter = {_id : new ObjectId(id)}
+     //      const result = await toycollection.deleteOne(filter)
+     //      res.send(result)
+     // })
 
 
 
