@@ -30,7 +30,7 @@ app.get('/alltoys',async(req,res)=>{
      app.get('/alltoys/:email',async(req,res)=>{
           console.log(req.params.email);
           const e = req.params.email
-          console.log(e);
+          // console.log(e);
           const result = await toycollection.find({email:e}).toArray()
           res.send(result)
      })
@@ -46,24 +46,14 @@ app.get('/alltoys',async(req,res)=>{
           const result = await toycollection.insertOne(add)
           res.send(result)
      })
-     app.get('/alltoys/:id',async(req,res)=>{
+     app.get('/toys/:id',async(req,res)=>{
           const id = req.params.id;
           const query = {_id : new ObjectId(id)};
-          const options = {
-               // Include only the `title` and `imdb` fields in each returned document
-               projection: {   photo:1,toyName:1,price:1,quantity:1,details:1,subcategory:1,salerName:1},
-             };
-          const result = await toycollection.findOne(query,options);
+          const result = await toycollection.findOne(query);
           res.send(result)
 
      })
-     // app.delete('/alltoys/:id',async(req,res)=>{
-     //      const id = req.params.id;
-     //      const filter = {_id : new ObjectId(id)}
-     //      const result = await toycollection.deleteOne(filter)
-     //      res.send(result)
-     // })
-
+      
 
 
 
